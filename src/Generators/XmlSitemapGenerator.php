@@ -185,6 +185,9 @@ class XmlSitemapGenerator implements SitemapGenerator
         $isDefaultLocale = $currentLocale === $this->config['locales']['default_locale'];
         $hideDefaultLocale = $this->config['locales']['hide_default_locale'] ?? false;
         
+        // Force URL protocol based on config
+        URL::forceScheme($this->config['url']['protocol'] ?? 'https');
+        
         // Generate URL with or without locale prefix based on settings
         if ($modelConfig['multilingual']) {
             if ($hideDefaultLocale && $isDefaultLocale) {
@@ -280,6 +283,9 @@ class XmlSitemapGenerator implements SitemapGenerator
         
         // Store original locale
         $originalLocale = App::getLocale();
+        
+        // Force URL protocol based on config
+        URL::forceScheme($this->config['url']['protocol'] ?? 'https');
         
         // Build URL based on locale and hide default locale setting
         if ($page['multilingual']) {
@@ -415,6 +421,8 @@ class XmlSitemapGenerator implements SitemapGenerator
      */
     public function getSitemapUrl(string $filename): string
     {
+        // Force URL protocol based on config
+        URL::forceScheme($this->config['url']['protocol'] ?? 'https');
         return url('storage/' . $this->config['storage']['path'] . '/' . $filename);
     }
 }
